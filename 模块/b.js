@@ -1,2 +1,2 @@
-let a = require("./a");
+let a = require("./asd");
 console.log(a);
