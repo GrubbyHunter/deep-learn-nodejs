@@ -17,3 +17,21 @@
 ## 4、多线程编程
 
 > javascript 是单线程的，多核的 CPU 很难利用起来
+
+## 关于解决方案
+
+### 使用事件订阅发布模式解决
+
+> 事件订阅发布也算是一种钩子机制，利用钩子将内部数据导出给外部使用，因为 node 中的很多模块对于用户来说都是黑盒的，用户不需要关系他里面的实现，只要把数据拿出来用就行了
+
+```javascript
+// 这里绑定事件和触发事件是分开的，方便扩展
+let EventEmitter = require("events");
+
+let emitter = new EventEmitter();
+emitter.on("do-some", data => {
+  console.log(`build do-some event ${data}`);
+});
+
+emitter.emit("do-some", "Grubby");
+```
