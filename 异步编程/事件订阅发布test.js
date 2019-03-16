@@ -22,3 +22,14 @@ emitter.emit("do-once");
 emitter.emit("do-once");
 emitter.emit("do-once");
 emitter.emit("do-once");
+
+let EventProxy = require("eventproxy");
+let proxy = new EventProxy();
+proxy.after("data", 3, param => {
+  console.log(param);
+});
+
+proxy.emit("data", "111");
+proxy.emit("data", "222");
+proxy.emit("data", "333");
+proxy.emit("data", "444");
