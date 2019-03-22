@@ -21,12 +21,11 @@ class MyPromise {
       return
     }
     this.state = "SUCCESS"
+    this.value = data
 
-    let run = () => {
-      let handle = this.callbacks.shift()
-      handle(data)
-    }
-    setTimeout(run, 0)
+    this.callbacks.forEach(function(fn) {
+      fn(data)
+    })
   }
 
   reject(error) {
@@ -35,17 +34,26 @@ class MyPromise {
       return
     }
     this.state = "FAIL"
+    this.value = error
 
-    let run = () => {
-      let handle = this.errorHandles.shift()
-      handle(error)
-    }
-    setTimeout(run, 0)
+    this.errorHandles.forEach(function(fn) {
+      fn(error)
+    })
   }
 
   then(successFun, failFun) {
-    this.callbacks.push(successFun)
-    this.errorHandles.push(failFun)
+    switch (this.state) {
+      case "PENDING":
+        this.callbacks.push(successFun)
+        this.errorHandles.push(failFun)
+        break
+      case "SUCCESS":
+        successFun(this.value)
+        break
+      case "ERROR":
+        failFun(this.value)
+        break
+    }
 
     // 返回 this，支持链式调用
     return this
