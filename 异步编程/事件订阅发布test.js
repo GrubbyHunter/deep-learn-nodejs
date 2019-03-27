@@ -4,8 +4,8 @@ let emitter = new EventEmitter();
 emitter.on("do-some", data => {
   console.log(`build do-some event ${data}`);
 });
-
-emitter.emit("do-some", "Grubby");
+ 
+emitter.emit("do-some", "Grubby")
 
 let build = callback => {
   emitter.once("do-once", callback);

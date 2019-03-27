@@ -39,7 +39,7 @@ class MyPromise {
     this.errorHandles.forEach(function(fn) {
       fn(error)
     })
-  }
+  } 
 
   then(successFun, failFun) {
     switch (this.state) {
