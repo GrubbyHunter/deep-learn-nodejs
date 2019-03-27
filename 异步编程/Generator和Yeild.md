@@ -50,13 +50,33 @@ gen.next().value.then(data => {
 
 ```javascript
 /**
- * @param  {generatorObj} generator状态管理器
+ * @param  {generatorFun} generator状态管理器
  */
-function run(generatorObj) {
-  let result = generatorObj.next.value
-
-  new Promise((resolve, reject) => {
-    result
-  })
+function* myGen() {
+  yield 1
+  console.log(1)
+  yield 2
+  console.log(2)
+  yield 3
+  console.log(3)
+  return 100
 }
+function run(generatorFun) {
+  let it = generatorFun()
+
+  let next = data => {
+    return new Promise((resolve, reject) => {
+      if (data.done) {
+        resolve(next.value)
+        return
+      }
+      // 只要没有完成，就持续递归调用next方法
+      next(it.next())
+    })
+  }
+
+  next(it.next())
+}
+
+run(myGen)
 ```
