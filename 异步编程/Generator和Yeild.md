@@ -26,14 +26,18 @@ gen.next() // {value: 100, done: true}
 ```javascript
 // 一个generator函数
 function* myGen() {
-  yield 1
-  yield 2
-  yield 3
-  return 100
+  let a = yield new Promise((resolve, reject) => {
+    resolve("a.file")
+  })
+  let b = yield new Promise((resolve, reject) => {
+    resolve("b.file")
+  })
 }
 let gen = myGen()
-gen.next() // {value: 1, done: false}
-gen.next() // {value: 2, done: false}
-gen.next() // {value: 3, done: false}
-gen.next() // {value: 100, done: true}
+// 需求是读取b文件之前读取a文件
+// 这里第一个next返回了一个promise，可以在读取完a之后再接一个then方法，then方法里面调用下一个next来读取b
+gen.next().value.then(data => {
+  console.log(data)
+  gen.next()
+})
 ```
