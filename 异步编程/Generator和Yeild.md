@@ -47,3 +47,16 @@ gen.next().value.then(data => {
 > 上面的`generator`函数有一个问题就是相对于同步方法，他需要外部不停地调用 next 方法来保证`generator`函数内部的执行  
 > 有没有一种办法来让`generator`函数自执行呢，这里就提到了我们的 co 模块，co 模块  
 > 下面是我自己实现的一个简单的 co 模块
+
+```javascript
+/**
+ * @param  {generatorObj} generator状态管理器
+ */
+function run(generatorObj) {
+  let result = generatorObj.next.value
+
+  new Promise((resolve, reject) => {
+    result
+  })
+}
+```
