@@ -2,7 +2,8 @@ let net = require("net")
 
 let tcpServer = net.createServer(socket => {
   socket.on("data", data => {
-    socket.write("tcp 接受数据")
+    console.log("服务端接收数据：", data)
+    socket.write("服务端发送数据数据:", data)
   })
 
   socket.on("end", data => {
